@@ -1,0 +1,52 @@
+1. 순환 (Recursion)의 소개
+정의: 함수가 자기 자신을 호출하여 문제를 해결하는 방법.
+특징
+기저 조건 (Base Case): 재귀 호출을 멈추는 조건.
+재귀 단계 (Recursive Step): 문제를 더 작은 문제로 나눔.
+
+2. 거듭제곱값 계산 (Power Calculation)
+문제: a의 n 계산.
+재귀적 풀이
+def power(a, n):
+    if n == 0:  # 기저 조건
+        return 1
+    return a * power(a, n - 1)  # 재귀 단계
+효율적 풀이 (분할정복)
+def power(a, n):
+    if n == 0:
+        return 1
+    half = power(a, n // 2)
+    if n % 2 == 0:
+        return half * half
+    else:
+        return half * half * a
+
+3. 피보나치 수열의 계산
+정의 : F(n)=F(n−1)+F(n−2), 𝐹(0)=0, F(1)=1
+재귀적 풀이
+def fibonacci(n):
+    if n <= 1:  # 기저 조건
+        return n
+    return fibonacci(n - 1) + fibonacci(n - 2)  # 재귀 단계
+효율적 풀이 (분할정복)
+def fibonacci(n, memo={}):
+    if n in memo:
+        return memo[n]
+    if n <= 1:
+        return n
+    memo[n] = fibonacci(n - 1, memo) + fibonacci(n - 2, memo)
+    return memo[n]
+
+4. 하노이탑 문제 (Tower of Hanoi)
+문제: N개의 원판을 A에서 C로 옮기되, B를 보조로 사용.
+규칙
+한 번에 하나의 원판만 이동 가능.
+큰 원판은 작은 원판 위에 놓을 수 없음.
+재귀적 풀이
+def hanoi(n, start, aux, end):
+    if n == 1:  # 기저 조건
+        print(f"Move disk 1 from {start} to {end}")
+        return
+    hanoi(n - 1, start, end, aux)  # n-1개를 start에서 aux로 이동
+    print(f"Move disk {n} from {start} to {end}")
+    hanoi(n - 1, aux, start, end)  # n-1개를 aux에서 end로 이동
