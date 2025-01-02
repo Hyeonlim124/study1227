@@ -101,6 +101,8 @@ printf(%c->%c,from,to)   from(시작)에서 to(임시공간)가는 과정 출력
 hanoi(n-1,tmp,from,to)
 3️⃣에서 봤듯 B > C 니까 tmp(시작)에서 from(임시공간)을 거쳐 to(목적지)로 가게된다
 
+
+------------------------------------------------------------------------------------------------------
 visual studio로 만들경우(원판4개)
 
 #include <stdio.h>
@@ -137,4 +139,7 @@ int main(void)
 원판을 1을 A 에서 B으로 옮긴다.
 원판 2을 A에서 C으로 옮긴다.
 원판을 1을 B 에서 C으로 옮긴다.
+
+https://pythontutor.com/render.html#mode=display 
+
 
