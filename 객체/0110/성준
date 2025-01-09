@@ -1,0 +1,26 @@
+#include <iostream>
+
+namespace Math {
+	int add(int a, int b) {
+		return a + b;
+	}
+	int subtract(int a, int b) {
+		return a - b;
+	}
+}
+
+
+
+
+int main() {
+	int x, y;
+	std::cout << "첫번째 숫자 입력: ";
+	std::cin >> x;
+	std::cout << "두번째 숫자 입력: ";
+	std::cin >> y;
+
+	std::cout << "addddd: " << Math::add(x, y) << std::endl;
+	std::cout << "sbtracttt: " << Math::subtract(x, y) << std::endl;
+
+	return 0;
+}
