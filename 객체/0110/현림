@@ -1,1 +1,67 @@
-.
+질문 : 기본 소멸자는 아무 것도 하지 않고 단순 리턴한다고 했는데 거기서의 리턴값은 무엇인지
+
+
+// 네임스페이스를 이용한 계산기 코드 예시
+#include <iostream>
+using namespace std;
+
+// 네임스페이스 정의
+namespace MathOperations {
+    // 덧셈 함수
+    int add(int a, int b) {
+        return a + b;
+    }
+
+    // 뺄셈 함수
+    int subtract(int a, int b) {
+        return a - b;
+    }
+
+    // 곱셈 함수
+    int multiply(int a, int b) {
+        return a * b;
+    }
+
+    // 나눗셈 함수
+    double divide(int a, int b) {
+        if (b == 0) {
+            cerr << "Error: Division by zero is not allowed!" << endl;
+            return 0;
+        }
+        return static_cast<double>(a) / b;
+    }
+}
+
+int main() {
+    int num1, num2;
+    char op;
+
+    cout << "Enter first number: ";
+    cin >> num1;
+
+    cout << "Enter an operator (+, -, *, /): ";
+    cin >> op;
+
+    cout << "Enter second number: ";
+    cin >> num2;
+
+    // 네임스페이스를 이용해 함수 호출
+    switch (op) {
+        case '+':
+            cout << "Result: " << MathOperations::add(num1, num2) << endl;
+            break;
+        case '-':
+            cout << "Result: " << MathOperations::subtract(num1, num2) << endl;
+            break;
+        case '*':
+            cout << "Result: " << MathOperations::multiply(num1, num2) << endl;
+            break;
+        case '/':
+            cout << "Result: " << MathOperations::divide(num1, num2) << endl;
+            break;
+        default:
+            cerr << "Invalid operator!" << endl;
+    }
+
+    return 0;
+}
