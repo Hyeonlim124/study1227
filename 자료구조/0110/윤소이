@@ -1,149 +1,162 @@
-<다항식>
+<스터디 발표>
 
-다항식이란? ex) f(x) = x^n+x^(n-1)+2
+다항식에 대해 설명하겠습니다.
+다항식은 f(x) = x^2+x+2입니다.
 
-다항식을 나타내는 두 가지의 자료 구조
+다항식을 나타내는 두 가지의 자료 구조를 설명하겠습니다.
 
-첫 번째 방법은 모든 차수의 계수 값을 배열에 저장하는 것
-다항식이 10x^3+5x^2+x+2라면
-이 다항식의 계수는 coef라는 배열에 (10, 3, 5, 0, 2)가 저장, 차수는 degree라는 변수에 저장
-다항식은 하나의 degree변수와 coef배열을 사용하므로 이 두 개를 묶어서 구조체를 만들어 하나의 다항식을 표현할 수 있다.
+첫 번째 방법은 모든 차수의 계수 값을 배열에 저장하는 것입니다.
+예를 들어 다항식이 10x^3+5x^2+x+2라면
+이 다항식의 계수는 coef라는 배열에 (10, 3, 5, 0, 2)로 저장됩니다.
+그리고 차수는 degree라는 변수에 따로 저장됩니다.
+다항식은 하나의 degree변수와 coef배열을 사용하므로 이 두 개를 묶어서 구조체를 만들어 그 구조체로 하나의 다항식을 표현할 수 있습니다.
+
+coef와 degree를 구조체로 만든 간단한 코드
 
 #define MAX_DEGREE 101
 typedef struct {
-   int degree;
-   float coef [MAX_DEGREE] ;
-} polynomial;
-polynomial a = { 5, {10, 0, 0, 0, 6, 3} 3};
+	int degree;
+	float coef [MAX_DEGREE] ;
+} poly;
+
+poly a = { 5, {10, 0, 0, 0, 6, 3} };
 
 이 코드는 간단하고 쉽게 이해되지만 공간의 낭비가 심하다.
+그러나 이 코드를 사용하면 다항식의 덧셈이나 뺄셈에 유용하다.
 
-이 방법을 사용한 코드는
+이 방법을 사용하여 2개의 다항식을 덧셈하는 코드를 설명하겠습니다.
 
-#include ‹stdio.h>
-#define MAXa,b) (((a) > (b))? (a) : (b))
+
+#include <stdio.h>
+#define MAX(a,b) (((a)>(b))?(a):(b))
 #define MAX_DEGREE 101
 typedef struct {
-   int degree;
-   float coef [MAX_DEGREE] ;
-} polynomial;
+	int degree;
+	float coef [MAX_DEGREE];
+} poly;
 
-polynomial poly_add1(polynomial A, polynomial B)
+poly poly_add1(poly A, poly B)
 {
-   polynomial C;
-   int Apos = 0, Bpos = 0, Cpos = 0;
-   int degree_a = A. degree;
-   int degree_b = B. degree;
-   C.degree = MAX(A.degree, B.degree);
-   
-   while (Apos <= A. degree && Bpos <= B. degree) [
-      if (degree_a › degree_b) {
-         C. coef [Cpos++] = A. coef [Apos++];
-         degree_a--;
-      }
-      else if (degree_a == degree_b) {
-         C. coef [Cpos++] = A. coef [Apos++] + B.coef [Bpos++];
-         degree_a-; degree_b--;
-      }
-      else {
-         C. coef [Cpos++] = B.coef [Bpos++];
-         degree_b--;
-      }
-   }
-   return C;
+	poly C;
+	int Apos = 0, Bpos = 0, Cpos = 0;
+	int degree_a = A.degree;
+	int degree_b = B.degree;
+	C.degree = MAX(A.degree, B.degree);
+	
+	while (Apos <= A.degree && Bpos <= B.degree) {
+		if (degree_a > degree_b) {
+			C.coef[Cpos++] = A.coef[Apos++];
+			degree_a--;
+		}
+		else if (degree_a == degree_b) {
+			C.coef[Cpos++] = A.coef[Apos++] + B.coef[Bpos++];
+			degree_a--; degree_b--;
+		}
+		else {
+			C.coef[Cpos++] = B.coef[Bpos++];
+			degree_b--;
+		}
+	}
+	return C;
 }
-void print_poly(polynomial p)
+void print_poly(poly p)
 {
-   for (int i = p. degree; i>0; 1--)
-      printf ("%3.1fx^%d + ", p.coef[p. degree - il, i);
-   printf ("%3.1f \n", p.coef[p.degree]) ;
+	for (int i = p.degree; i>0; i--)
+		printf("%3.1fx^%d + ", p.coef[p.degree – I], i);
+	printf("%3.1f \n", p.coef[p.degree]);
 }
-int main (void)
+int main(void)
 {
-   polynomial a = { 5,{ 3, 6, 0, 0, 0, 10 } };
-   polynomial b = { 4,{ 7, 0, 5, 0, 1} };
-   polynomial c;
-   print_poly(a) ;
-   print_poly(b) ;
-   c = poly_add1(a, b) ;
-   printf("-------------------------------------------\n");
-print_poly(c) ;
-return 0;
+	poly a = { 5,{ 3, 6, 0, 0, 0, 10 } };
+	poly b = { 4,{ 7, 0, 5, 0, 1} };
+	poly c;
+	print_poly(a);
+	print_poly(b);
+	c = poly_add1(a, b);
+	printf("-------------------------------------------\n“);
+	print_poly(c);
+	return 0;
 }
 
-두 번째 방법은 공간을 절약하기 위해서 다항식에서 0이 아닌 항만을 하나의 전역 배열에 저장하는 방법이다.
-이 방법은 하나의 배열에 하나 이상의 다항식을 저장할 수 있다.
+두 번째 방법은 공간을 절약하기 위해서 다항식에서 0이 아닌 항만을 하나의 전역 배열에 저장하는 방법입니다. 
+이 방법은 하나의 배열에 하나 이상의 다항식을 저장할 수 있습니다.
+다항식의 0이 아닌 항들은 (계수, 차수)의 형식으로 구조체 배열에 저장됩니다.
 
-이 방법은 MAX_TERMS을 넘지만 않으면 많은 다항식을 저장할 수 있다. 
-그러나 인덱스 변수를 관리해야하고 차수도 저장하고 다항식에 따라서 계수만 저장하는 첫 번째 방법보다 공간을 더 많이 차지할 수도 있다. 
 
-이 방법의 코드는
+
+
+
+이 방법을 사용한 덧셈 코드
 
 #include <stdio.h> 
 #include <stdlib.h>
 
 #define MAX_TERMS 101
 typedef struct {
-   float coef;
-   int expon;
-} polynomial;
-polynomial terms [MAX_TERMS] = { { 8,3 }, { 7,1 }, { 1,0 }, { 10,3 }, { 3,2 }, { 1,0 } };
+	float coef;
+	int expon;
+} poly;
+poly tm [MAX_TERMS] = { { 8,3 }, { 7,1 }, { 1,0 }, { 10,3 }, { 3,2 }, { 1,0 } };
 int avail = 6;
 
 char compare(int a, int b)
 {
-   if (a>b) return '›';
-   else if (a == b) return '=';
-   else return '‹';
+	if (a>b) return '>';
+	else if (a == b) return '=';
+	else return '<';
 }
 
 void attach(float coef, int expon)
 {
-   if (avail>MAX_TERMS) {
-      fprintf(stderr, "항의 개수가 너무 많음\n");
-      exit(1);
-   }
-   terms[avail].coef = coef;
-   terms[avail].expon = expon;
-   avail++;
+	if (avail>MAX_TERMS) {
+		fprintf(stderr, "항의 개수가 너무 많음\n");
+		exit(1);
+	}
+	terms[avail].coef = coef;
+	terms[avail].expon = expon;
+	avail++;
 }
 void poly_add2 (int As, int Ae, int Bs, int Be, int *Cs, int *Ce)
 {
-   float tempcoef;
-   *Cs = avail;
-   while (As <= Ae && Bs <= Be)
-      switch (compare(terms[As].expon, terms[Bs].expon)) {
-   case '>':
-      attach(terms[As].coef, terms[As].expon) ;
-      As++;      break;
-   case '=:
-      tempcoef = terms[As].coef + terms[Bs].coef;
-      if (tempcoef)
-         attach(tempcoef, terms[As].expon) ;
-      As++; Bs++; break;
-   case '<':
-      attach(terms[Bs].coef, terms[Bs].expon) ;
-      Bs++; break;
-   }
+	float tempcoef;
+	*Cs = avail;
+	while (As <= Ae && Bs <= Be)
+		switch (compare(terms[As].expon, terms[Bs].expon)) {
+	case '>':
+		attach(terms[As].coef, terms[As].expon);
+		As++;		break;
+	case '=’:
+		tempcoef = terms[As].coef + terms[Bs].coef;
+		if (tempcoef)
+			attach(tempcoef, terms[As].expon);
+		As++; Bs++; break;
+	case '<':
+		attach(terms[Bs].coef, terms[Bs].expon);
+		Bs++; break;
+	}
 
 for (; As <= Ae; As++)
-   attach(terms [As]. coef, terms[As].expon);
+	attach(terms[As].coef, terms[As].expon);
 for (; Bs <= Be; Bs++)
-   attach(terms [Bs]. coef, terms[Bs].expon) ;
+	attach(terms[Bs].coef, terms[Bs].expon);
 *Ce = avail - 1;
 }
 void print_poly(int s, int e)
 {
-   for (int i = s; i < e; i++)
-      printf ("63.1fx%d +", terms[il.coef, terms[1].expon) ;
-   printf ("%3.1fx^%d\n", terms[e].coef, terms[e].expon) ;
+	for (int i = s; i < e; i++)
+		printf ("%3.1fx^%d +", terms[i].coef, terms[i].expon);
+	printf ("%3.1fx^%d\n", terms[e].coef, terms[e].expon);
 }
 int main(void)
 {
-   int As = 0, Ae = 2, Bs = 3, Be = 5, CS, Ce;
-   poly_add2(As, Ae, Bs, Be, &Cs, &Ce) ; print_poly(As, Ae) ;
-   print_poly(Bs, Be) ;
-   printf("--------------------------------\n");
-   print_poly(Cs, Ce) ;
-   return 0;
+	int As = 0, Ae = 2, Bs = 3, Be = 5, CS, Ce;
+	poly_add2(As, Ae, Bs, Be, &Cs, &Ce); 
+	print_poly(As, Ae);
+	print_poly(Bs, Be);
+	printf("--------------------------------\n“);
+	print_poly(Cs, Ce);
+	return 0;
 }
+
+이 방법은 tm 안에 많은 다항식을 저장할 수 있다.
+그러나 인덱스 변수를 관리해야하고 차수도 저장하고 다항식에 따라서 계수만 저장하는 첫 번째 방법보다 공간을 더 많이 차지할 수도 있습니다. 
